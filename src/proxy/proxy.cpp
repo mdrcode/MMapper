@@ -231,28 +231,34 @@ void Proxy::slot_start()
     connect(mudSocket,
             &MumeSocket::sig_connected,
             &m_gameObserver,
-            &GameObserver::slot_observeConnected);
+            &GameObserver::slot_observeConnected,
+            Qt::QueuedConnection);
     connect(parserXml,
             &MumeXmlParser::sig_sendToMud,
             &m_gameObserver,
-            &GameObserver::slot_observeSentToMudText);
+            &GameObserver::slot_observeSentToMudText,
+            Qt::QueuedConnection);
     connect(parserXml,
             &MumeXmlParser::sig_sendToUser,
             &m_gameObserver,
-            &GameObserver::slot_observeSentToUserText);
+            &GameObserver::slot_observeSentToUserText,
+            Qt::QueuedConnection);
     // note the polarity, unlike above: MudTelnet::relay is SentToUser, UserTelnet::relay is SentToMud
     connect(mudTelnet,
             &MudTelnet::sig_relayGmcp,
             &m_gameObserver,
-            &GameObserver::slot_observeSentToUserGmcp);
+            &GameObserver::slot_observeSentToUserGmcp,
+            Qt::QueuedConnection);
     connect(userTelnet,
             &UserTelnet::sig_relayGmcp,
             &m_gameObserver,
-            &GameObserver::slot_observeSentToMudGmcp);
+            &GameObserver::slot_observeSentToMudGmcp,
+            Qt::QueuedConnection);
     connect(mudTelnet,
             &MudTelnet::sig_relayEchoMode,
             &m_gameObserver,
-            &GameObserver::slot_observeToggledEchoMode);
+            &GameObserver::slot_observeToggledEchoMode,
+            Qt::QueuedConnection);
 
     log("Connection to client established ...");
 
