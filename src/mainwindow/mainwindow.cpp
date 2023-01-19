@@ -71,6 +71,7 @@
 #include "../roompanel/RoomWidget.h"
 #include "UpdateDialog.h"
 #include "aboutdialog.h"
+#include "adventure/xpstatuswidget.h"
 #include "findroomsdlg.h"
 #include "infomarkseditdlg.h"
 #include "roomeditattrdlg.h"
@@ -1453,7 +1454,9 @@ void MainWindow::setupToolBars()
 void MainWindow::setupStatusBar()
 {
     statusBar()->showMessage(tr("Say friend and enter..."));
-    statusBar()->insertPermanentWidget(0, new MumeClockWidget(m_mumeClock, this));
+    statusBar()->insertPermanentWidget(1, new MumeClockWidget(m_mumeClock, this));
+
+    statusBar()->insertPermanentWidget(0, new XPStatusWidget(*m_adventureTracker));
 }
 
 void MainWindow::slot_onPreferences()
