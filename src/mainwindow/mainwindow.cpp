@@ -25,6 +25,7 @@
 
 #include "../adventure/adventuretracker.h"
 #include "../adventure/adventurewidget.h"
+#include "../adventure/xpstatuswidget.h"
 #include "../client/ClientWidget.h"
 #include "../clock/mumeclock.h"
 #include "../clock/mumeclockwidget.h"
@@ -71,7 +72,6 @@
 #include "../roompanel/RoomWidget.h"
 #include "UpdateDialog.h"
 #include "aboutdialog.h"
-#include "adventure/xpstatuswidget.h"
 #include "findroomsdlg.h"
 #include "infomarkseditdlg.h"
 #include "roomeditattrdlg.h"
