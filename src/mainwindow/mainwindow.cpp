@@ -1456,7 +1456,7 @@ void MainWindow::setupStatusBar()
     statusBar()->showMessage(tr("Say friend and enter..."));
     statusBar()->insertPermanentWidget(1, new MumeClockWidget(m_mumeClock, this));
 
-    XPStatusWidget *xpStatus = new XPStatusWidget(*m_adventureTracker, statusBar(), this);
+    XPStatusWidget *xpStatus = new XPStatusWidget(*m_adventureTracker, *statusBar(), this);
     connect(xpStatus, &QPushButton::clicked, [this]() {
         m_dockDialogAdventure->setVisible(!m_dockDialogAdventure->isVisible());
     });
