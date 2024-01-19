@@ -657,7 +657,7 @@ void XmlMapStorage::loadNotifyProgress(QXmlStreamReader &stream)
     m_loadProgress = loadProgressNew;
 }
 
-void XmlMapStorage::throwError(QXmlStreamReader &stream, const QString &msg)
+[[noreturn]] void XmlMapStorage::throwError(QXmlStreamReader &stream, const QString &msg)
 {
     QString errmsg = QString("Error at line %1:\n%2").arg(stream.lineNumber()).arg(msg);
     throw std::runtime_error(::toStdStringUtf8(errmsg));
