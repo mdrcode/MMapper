@@ -14,6 +14,7 @@ Makefile
 .idea
 .vs
 .vscode
+*.code-workspace
 CMakeSettings.json
 
 # snapcraft
