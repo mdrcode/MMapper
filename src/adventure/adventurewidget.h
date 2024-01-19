@@ -42,6 +42,7 @@ private slots:
     void slot_actionClearContent(bool checked = false);
 
 private:
+    void setFormat();
     void addDefaultContent();
     void addAdventureUpdate(const QString &msg);
 

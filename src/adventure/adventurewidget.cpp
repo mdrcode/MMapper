@@ -24,27 +24,13 @@ AdventureWidget::AdventureWidget(AdventureTracker &at, QWidget *const parent)
     m_textEdit->setTextInteractionFlags(Qt::TextSelectableByMouse);
     m_textEdit->setTabChangesFocus(false);
 
-    const auto settings = getConfig().integratedClient;
-
-    QTextFrameFormat frameFormat = m_textEdit->document()->rootFrame()->frameFormat();
-    frameFormat.setBackground(settings.backgroundColor);
-    m_textEdit->document()->rootFrame()->setFrameFormat(frameFormat);
-
-    QTextCharFormat blockCharFormat = m_textCursor->blockCharFormat();
-    blockCharFormat.setForeground(settings.foregroundColor);
-    {
-        QFont font;
-        font.fromString(settings.font); // need fromString() to extract PointSize
-        blockCharFormat.setFont(font);
-    }
-    m_textCursor->setBlockCharFormat(blockCharFormat);
-
     auto layout = new QVBoxLayout(this);
     layout->setAlignment(Qt::AlignTop);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addWidget(m_textEdit);
 
+    setFormat();
     addDefaultContent();
 
     m_clearContentAction = new QAction("Clear Content", this);
@@ -157,11 +143,28 @@ void AdventureWidget::slot_contextMenuRequested(const QPoint &pos)
 
 void AdventureWidget::slot_actionClearContent([[maybe_unused]] bool checked)
 {
-    // REVISIT should use m_textCursor->document()->clear() instead?
-    m_textCursor->movePosition(QTextCursor::Start);
-    m_textCursor->movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, QTextCursor::End);
-    m_textCursor->removeSelectedText();
+    m_textCursor->document()->clear();
+    setFormat();
     addDefaultContent();
+}
+
+void AdventureWidget::setFormat()
+{
+    const auto settings = getConfig().integratedClient;
+
+    QTextFrameFormat frameFormat = m_textEdit->document()->rootFrame()->frameFormat();
+    frameFormat.setBackground(settings.backgroundColor);
+    m_textEdit->document()->rootFrame()->setFrameFormat(frameFormat);
+
+    QTextCharFormat blockCharFormat = m_textCursor->blockCharFormat();
+    blockCharFormat.setForeground(settings.foregroundColor);
+    {
+        QFont font;
+        font.fromString(settings.font); // need fromString() to extract PointSize
+        blockCharFormat.setFont(font);
+    }
+    m_textCursor->setBlockCharFormat(blockCharFormat);
+
 }
 
 void AdventureWidget::addDefaultContent()
