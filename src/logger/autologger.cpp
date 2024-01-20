@@ -7,6 +7,7 @@
 #include "../configuration/configuration.h"
 #include "../global/TextUtils.h"
 #include "../global/random.h"
+#include "observer/gameobserver.h"
 
 #include <algorithm>
 #include <cstdint>
@@ -25,10 +26,19 @@ NODISCARD static std::string generateRunId()
     return os.str();
 }
 
-AutoLogger::AutoLogger(QObject *const parent)
+AutoLogger::AutoLogger(GameObserver &observer, QObject *const parent)
     : QObject(parent)
+    , m_gameObserver{observer}
     , m_runId{generateRunId()}
-{}
+{
+    connect(&m_gameObserver, &GameObserver::sig_connected, this, &AutoLogger::slot_onConnected);
+    connect(&m_gameObserver, &GameObserver::sig_toggledEchoMode, this, &AutoLogger::slot_shouldLog);
+    connect(&m_gameObserver, &GameObserver::sig_sentToMudString, this, &AutoLogger::slot_writeToLog);
+    connect(&m_gameObserver,
+            &GameObserver::sig_sentToUserString,
+            this,
+            &AutoLogger::slot_writeToLog);
+}
 
 AutoLogger::~AutoLogger()
 {

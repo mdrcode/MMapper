@@ -9,12 +9,11 @@
 #include <QObject>
 
 #include "../global/macros.h"
+#include "observer/gameobserver.h"
 
 class AutoLogger final : public QObject
 {
-    Q_OBJECT
-public:
-    explicit AutoLogger(QObject *parent);
+    Q_OBJECT public : explicit AutoLogger(GameObserver &, QObject *parent);
     ~AutoLogger() final;
 
 public slots:
@@ -30,6 +29,8 @@ private:
     NODISCARD bool createFile();
 
 private:
+    GameObserver &m_gameObserver;
+
     const std::string m_runId;
     std::fstream m_logFile;
     int m_curBytes = 0;
